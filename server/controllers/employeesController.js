@@ -2,7 +2,7 @@ const ApiError = require("../error/ApiError");
 const {User} = require("../models/models");
 const bcrypt = require('bcrypt')
 
-class UserController {
+class EmployeesController {
     //Создание нового пользователя
     async createUser(req, res, next) {
         try {
@@ -117,4 +117,4 @@ class UserController {
     }
 }
 
-module.exports = new UserController();
+module.exports = new EmployeesController();

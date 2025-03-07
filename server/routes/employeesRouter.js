@@ -1,6 +1,6 @@
 const Router = require('express')
 const router = new Router
-const userController = require('../controllers/userController')
+const userController = require('../controllers/employeesController')
 
 router.post('/create', userController.createUser) // Создание нового пользователя
 router.get('/all', userController.getAllUsers) // Получение всех пользователей

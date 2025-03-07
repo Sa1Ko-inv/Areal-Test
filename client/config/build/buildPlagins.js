@@ -19,12 +19,16 @@ function buildPlagins({mode, paths, analyzer, platform}) {
             favicon: path.resolve(paths.public, 'QR-icons.png')
         }),
 
-        new Dotenv(),
+        new Dotenv({
+            systemvars: true,
+            path: path.resolve(__dirname, './../../src/.env'),
+        }),
 
         new DefinePlugin({
             __PLATFORM__: JSON.stringify(platform),
             __ENV__: JSON.stringify(mode),
             // 'process.env': JSON.stringify(process.env),
+            // 'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL)
         }),
     ]
 
