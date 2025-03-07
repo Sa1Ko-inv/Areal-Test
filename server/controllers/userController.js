@@ -105,6 +105,16 @@ class UserController {
             next(ApiError.badRequest(e.message));
         }
     }
+
+    // Очистка таблицы пользователей и сброс автоинкремента
+    async clearUsers(req, res, next) {
+        try {
+            await User.truncate({restartIdentity: true});
+            return res.json({message: 'Таблица пользователей очищена, автоинкремент сброшен'});
+        } catch (error) {
+            return next(ApiError.internal(error.message));
+        }
+    }
 }
 
 module.exports = new UserController();
