@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {fetchEmployees} from "../../http/employeesAPI";
+import EmployeesItem from "../EmployeesItem/EmployeesItem";
+import * as style from "./employees.module.scss"
+
 
 const Employees = () => {
     const [employees, setEmployees] = useState([]);
@@ -20,22 +23,9 @@ const Employees = () => {
 
     return (
         <div>
-            <h1>All Employees</h1>
+            <h1 className={style.title}>Все сотрудники</h1>
             {employees.map((employee) => (
-                <div key={employee.id} className="employee">
-                    <div className="employee__content">
-                        <strong>{employee.id}. {employee.fullName}</strong>
-                        <div>Birth Date: {employee.birthDate}</div>
-                        <div>Passport: {employee.passport}</div>
-                        <div>Contact Info: {employee.contactInfo}</div>
-                        <div>Address: {employee.address}</div>
-                        <div>Department: {employee.department}</div>
-                        <div>Position: {employee.position}</div>
-                        <div>Salary: {employee.salary}</div>
-                        <div>Hire Date: {employee.hireDate}</div>
-                        <div>Status: {employee.status}</div>
-                    </div>
-                </div>
+                <EmployeesItem key={employee.id} employee={employee} />
             ))}
         </div>
     );
