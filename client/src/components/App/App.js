@@ -6,8 +6,6 @@ const App = observer(() => {
 
     return (
         <div className="App">
-
-
             <Employees />
         </div>
     );

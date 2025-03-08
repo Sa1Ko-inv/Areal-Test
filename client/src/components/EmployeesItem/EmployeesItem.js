@@ -1,6 +1,6 @@
 import * as styles from "./employeesItem.module.scss"
 
-const EmployeesItem = ({ employee }) => {
+const EmployeesItem = ({ employee, onEditClick}) => {
     const statusClassName = employee.status.toLowerCase() === "уволен" ? styles.statusDismissed : styles.statusActive
     return (
         <div key={employee.id} className={styles.employee}>
@@ -45,7 +45,11 @@ const EmployeesItem = ({ employee }) => {
                 </div>
             </div>
             <div className={styles.buttons}>
-                <button className={styles.editButton}>Редактировать</button>
+                <button
+                    className={styles.editButton}
+                    onClick={() => onEditClick(employee)}
+                >
+                    Редактировать</button>
                 <button className={styles.dismissButton}>Уволить</button>
             </div>
         </div>

@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {fetchEmployees} from "../../http/employeesAPI";
+import {fetchEmployees, updateEmployees} from "../../http/employeesAPI";
 import EmployeesItem from "../EmployeesItem/EmployeesItem";
 import * as style from "./employees.module.scss"
-import MySelect from "../UI/selected/MySelect";
+import EmployeesFilter from "../EmployeesFilter/EmployeesFilter";
+import EditEmployeeModal from "../EmployeesItem/EditEmployeeModal/EditEmployeeModal";
 
 
 const Employees = () => {
     const [employees, setEmployees] = useState([]);
     const [sortedEmployees, setSortedEmployees] = useState('');
+    const [editingEmployee, setEditingEmployee] = useState(null);
 
     useEffect(() => {
         const getEmployees = async () => {
@@ -30,31 +32,69 @@ const Employees = () => {
         setEmployees([...employees].sort((a, b) => a[sort].localeCompare(b[sort])));
     }
 
+    // При нажатии на кнопку "Редактировать", сохраняем данные сотрудника в состояние
+    const handleEditClick = (employee) => {
+        setEditingEmployee(employee);
+    }
+
+    // Обновление данных сотрудника
+    const handleSave = async (updatedEmployee) => {
+        try {
+            await updateEmployees(
+                updatedEmployee.id,
+                updatedEmployee.fullName,
+                updatedEmployee.birthDate,
+                updatedEmployee.passport,
+                updatedEmployee.contactInfo,
+                updatedEmployee.address,
+                updatedEmployee.department,
+                updatedEmployee.position,
+                updatedEmployee.salary,
+                updatedEmployee.hireDate
+            );
+
+            setEmployees((prev) =>
+                prev.map((employee) =>
+                    employee.id === updatedEmployee.id ? updatedEmployee : employee
+                )
+            );
+        } catch (error) {
+            console.log("Ошибка при обновлении данных сотрудника:", error);
+        }
+        setEditingEmployee(null);
+    };
+
     return (
         <div>
             <div className="title">
                 <h1 className={style.title}>Все сотрудники</h1>
             </div>
 
-            <div className="sorted-and-searching">
-                <input placeholder='Поиск'></input>
+            <EmployeesFilter
+                sortedEmployees={sortedEmployees}
+                sortEmployees={sortEmployees}
+            />
 
-                <MySelect
-                    value={sortedEmployees}
-                    onChange={sortEmployees}
-                    defaultValue="Сортировка по..."
-                    options={[
-                        {value: "department", name: "По отделу"},
-                        {value: "position", name: "По должности"},
-                    ]}
+            <form action="">
+                <button>Добавить пользователя</button>
+            </form>
+
+            {employees.map((employee) => (
+                <EmployeesItem
+                    key={employee.id}
+                    employee={employee}
+                    onEditClick={handleEditClick}
                 />
-                <form action="">
-                    <button>Добавить пользователя</button>
-                </form>
-                {employees.map((employee) => (
-                    <EmployeesItem key={employee.id} employee={employee}/>
-                ))}
-            </div>
+            ))}
+
+            {editingEmployee && (
+                <EditEmployeeModal
+                employee={editingEmployee}
+                onClose={() => setEditingEmployee(null)}
+                onSave={handleSave}
+
+                />
+            )}
         </div>
     );
 };
