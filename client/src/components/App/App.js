@@ -6,11 +6,7 @@ const App = observer(() => {
 
     return (
         <div className="App">
-            <form action="">
-                <input type="text"/>
-                <input type="text"/>
-                <button>Добавить пользователя</button>
-            </form>
+
 
             <Employees />
         </div>
