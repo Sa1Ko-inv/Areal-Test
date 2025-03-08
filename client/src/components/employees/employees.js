@@ -4,12 +4,17 @@ import EmployeesItem from "../EmployeesItem/EmployeesItem";
 import * as style from "./employees.module.scss"
 import EmployeesFilter from "../EmployeesFilter/EmployeesFilter";
 import EditEmployeeModal from "../EmployeesItem/EditEmployeeModal/EditEmployeeModal";
+import CreateEmployeeModal from "../EmployeesItem/CreateEmployeeModal/CreateEmployeeModal";
 
 
 const Employees = () => {
+    // Состояние для хранения данных сотрудников
     const [employees, setEmployees] = useState([]);
     const [sortedEmployees, setSortedEmployees] = useState('');
     const [editingEmployee, setEditingEmployee] = useState(null);
+    const [createEmployee, setCreateEmployee] = useState(null); // Состояние для создания нового сотрудника
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Состояние для открытия/закрытия модального окна
+
 
     useEffect(() => {
         const getEmployees = async () => {
@@ -27,17 +32,17 @@ const Employees = () => {
     }, []);
 
     // Сортировка сотрудников по отделу или должности
-    const sortEmployees = (sort) => {
-        setSortedEmployees(sort);
-        setEmployees([...employees].sort((a, b) => a[sort].localeCompare(b[sort])));
+    const sortEmployees = (sortKey) => {
+        setSortedEmployees(sortKey);
+        setEmployees([...employees].sort((a, b) => a[sortKey].localeCompare(b[sortKey])));
     }
 
-    // При нажатии на кнопку "Редактировать", сохраняем данные сотрудника в состояние
+    // Открытие окна редактирования
     const handleEditClick = (employee) => {
         setEditingEmployee(employee);
     }
 
-    // Обновление данных сотрудника
+    // Сохранение изменений сотрудника
     const handleSave = async (updatedEmployee) => {
         try {
             await updateEmployees(
@@ -52,10 +57,9 @@ const Employees = () => {
                 updatedEmployee.salary,
                 updatedEmployee.hireDate
             );
-
             setEmployees((prev) =>
-                prev.map((employee) =>
-                    employee.id === updatedEmployee.id ? updatedEmployee : employee
+                prev.map((emp) =>
+                    emp.id === updatedEmployee.id ? updatedEmployee : emp
                 )
             );
         } catch (error) {
@@ -64,37 +68,41 @@ const Employees = () => {
         setEditingEmployee(null);
     };
 
+    // Создание нового сотрудника
+    const createEmployees = (newEmployee) => {
+        setEmployees([...employees, newEmployee]);
+        setCreateEmployee(null)
+    }
+
     return (
         <div>
-            <div className="title">
-                <h1 className={style.title}>Все сотрудники</h1>
-            </div>
+            <h1 className={style.title}>Все сотрудники</h1>
 
+            {/* Фильтр */}
             <EmployeesFilter
                 sortedEmployees={sortedEmployees}
                 sortEmployees={sortEmployees}
             />
 
-            <form action="">
-                <button>Добавить пользователя</button>
-            </form>
+            {/* Кнопка добавления сотрудника */}
+            <button onClick={() => setIsCreateModalOpen(true)}>
+                Добавить пользователя
+            </button>
 
+            {/* Список сотрудников */}
             {employees.map((employee) => (
-                <EmployeesItem
-                    key={employee.id}
-                    employee={employee}
-                    onEditClick={handleEditClick}
-                />
+                <EmployeesItem key={employee.id} employee={employee} onEditClick={handleEditClick}/>
             ))}
 
-            {editingEmployee && (
-                <EditEmployeeModal
-                employee={editingEmployee}
-                onClose={() => setEditingEmployee(null)}
-                onSave={handleSave}
-
-                />
+            {/* Модальные окна */}
+            {isCreateModalOpen && (
+                <CreateEmployeeModal onClose={() => setIsCreateModalOpen(false)} create={createEmployees}/>
             )}
+
+            {editingEmployee && (
+                <EditEmployeeModal employee={editingEmployee} onClose={() => setEditingEmployee(null)} onSave={handleSave}/>
+            )}
+
         </div>
     );
 };
