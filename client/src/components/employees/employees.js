@@ -14,7 +14,7 @@ const Employees = () => {
     const [editingEmployee, setEditingEmployee] = useState(null); // Состояние для редактирования сотрудника
     const [createEmployee, setCreateEmployee] = useState(null); // Состояние для создания нового сотрудника
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Состояние для открытия/закрытия модального окна
-
+    const [searchValue, setSearchValue] = useState(''); // Состояние для поиска сотрудника
 
     useEffect(() => {
         const getEmployees = async () => {
@@ -91,6 +91,10 @@ const Employees = () => {
         }
     }
 
+    const filteredEmployees = employees.filter(employee => {
+        return employee.fullName.toLowerCase().includes(searchValue.toLowerCase())
+    })
+
     return (
         <div>
             <h1 className={style.title}>Все сотрудники</h1>
@@ -99,6 +103,8 @@ const Employees = () => {
             <EmployeesFilter
                 sortedEmployees={sortedEmployees}
                 sortEmployees={sortEmployees}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
             />
 
             {/* Кнопка добавления сотрудника */}
@@ -107,7 +113,7 @@ const Employees = () => {
             </button>
 
             {/* Список сотрудников */}
-            {employees.map((employee) => (
+            {filteredEmployees.map((employee) => (
                 <EmployeesItem key={employee.id} employee={employee} onEditClick={handleEditClick} onDismissClick={dismissEmployee}/>
             ))}
 

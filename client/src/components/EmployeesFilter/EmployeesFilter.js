@@ -1,9 +1,14 @@
 import MySelect from "../UI/selected/MySelect";
 
-const EmployeesFilter = ({ sortedEmployees, sortEmployees }) => {
+const EmployeesFilter = ({ sortedEmployees, sortEmployees, searchValue, setSearchValue }) => {
+
     return (
         <div className="sorted-and-searching">
-            <input placeholder='Поиск'></input>
+            <input
+                placeholder='Поиск'
+                value={searchValue}
+                onChange={event => setSearchValue(event.target.value)}
+            ></input>
 
             <MySelect
                 value={sortedEmployees}
