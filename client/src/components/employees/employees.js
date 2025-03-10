@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {fetchEmployees, updateEmployees} from "../../http/employeesAPI";
+import {dismissEmployees, fetchEmployees, updateEmployees} from "../../http/employeesAPI";
 import EmployeesItem from "../EmployeesItem/EmployeesItem";
 import * as style from "./employees.module.scss"
 import EmployeesFilter from "../EmployeesFilter/EmployeesFilter";
@@ -11,7 +11,7 @@ const Employees = () => {
     // Состояние для хранения данных сотрудников
     const [employees, setEmployees] = useState([]);
     const [sortedEmployees, setSortedEmployees] = useState('');
-    const [editingEmployee, setEditingEmployee] = useState(null);
+    const [editingEmployee, setEditingEmployee] = useState(null); // Состояние для редактирования сотрудника
     const [createEmployee, setCreateEmployee] = useState(null); // Состояние для создания нового сотрудника
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Состояние для открытия/закрытия модального окна
 
@@ -74,6 +74,23 @@ const Employees = () => {
         setCreateEmployee(null)
     }
 
+    //Увольнение сотрудника
+    const dismissEmployee = async (employee) => {
+        try {
+            await dismissEmployees(
+                employee.id,
+                "Уволен"
+            );
+            setEmployees((prev) =>
+                prev.map((emp) =>
+                    emp.id === employee.id ? { ...emp, status: "уволен"} : emp
+                )
+            );
+        } catch (error) {
+            console.error("Ошибка при увольнении сотрудника:", error);
+        }
+    }
+
     return (
         <div>
             <h1 className={style.title}>Все сотрудники</h1>
@@ -91,7 +108,7 @@ const Employees = () => {
 
             {/* Список сотрудников */}
             {employees.map((employee) => (
-                <EmployeesItem key={employee.id} employee={employee} onEditClick={handleEditClick}/>
+                <EmployeesItem key={employee.id} employee={employee} onEditClick={handleEditClick} onDismissClick={dismissEmployee}/>
             ))}
 
             {/* Модальные окна */}
@@ -100,7 +117,8 @@ const Employees = () => {
             )}
 
             {editingEmployee && (
-                <EditEmployeeModal employee={editingEmployee} onClose={() => setEditingEmployee(null)} onSave={handleSave}/>
+                <EditEmployeeModal employee={editingEmployee} onClose={() => setEditingEmployee(null)}
+                                   onSave={handleSave}/>
             )}
 
         </div>

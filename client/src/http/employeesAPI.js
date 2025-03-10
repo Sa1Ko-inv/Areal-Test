@@ -29,3 +29,7 @@ export const createEmployees = async (employeeData) => {
         throw error; // Пробрасываем ошибку для обработки в компоненте
     }
 };
+
+export const dismissEmployees = async (id, status) => {
+    await $host.put(`api/employees/dismiss/${id}`, {status: status});
+}
