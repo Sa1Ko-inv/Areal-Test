@@ -1,9 +1,10 @@
 import React from 'react';
+import * as styles from './MySelect.module.scss';
 
 const MySelect = ({defaultValue, options, value, onChange}) => {
     return (
         <select
-            style={({margin: "30px 10px"})}
+            className={styles.select}
             value={value}
             onChange={event => onChange(event.target.value)}
         >
