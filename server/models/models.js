@@ -3,17 +3,17 @@ const {DataTypes} = require('sequelize');
 const {parse, format, isValid} = require('date-fns');
 
 // Функция для безопасного парсинга даты
-const safeParseDateString = (dateString) => {
-    try {
-        const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
-        if (!isValid(parsedDate)) {
-            throw new Error('Invalid date');
-        }
-        return format(parsedDate, 'yyyy-MM-dd');
-    } catch (error) {
-        throw new Error(`Invalid date format: ${dateString}`);
-    }
-};
+// const safeParseDateString = (dateString) => {
+//     try {
+//         const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
+//         if (!isValid(parsedDate)) {
+//             throw new Error('Invalid date');
+//         }
+//         return format(parsedDate, 'yyyy-MM-dd');
+//     } catch (error) {
+//         throw new Error(`Invalid date format: ${dateString}`);
+//     }
+// };
 
 const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import * as styles from "./CreateEmployeeModal.model.scss";
 import {createEmployees} from "../../../http/employeesAPI";
+import {InputMask} from "@react-input/mask";
 
 const CreateEmployeeModal = ({onClose, create}) => {
     const [newEmployee, setNewEmployee] = useState({
@@ -37,31 +38,31 @@ const CreateEmployeeModal = ({onClose, create}) => {
                 <h2>Создание сотрудника</h2>
 
                 <p>ФИО</p>
-                <input type="text" name="fullName" value={newEmployee.fullName} onChange={handleChange} />
+                <input type="text" name="fullName" value={newEmployee.fullName} onChange={handleChange} placeholder="Введите ФИО"/>
 
                 <p>Дата рождения</p>
-                <input type="text" name="birthDate" value={newEmployee.birthDate} onChange={handleChange} />
+                <InputMask mask="##/##/####" replacement='#' type="text" name="birthDate" value={newEmployee.birthDate} onChange={handleChange} placeholder="dd/MM/yyyy"/>
 
                 <p>Паспортные данные</p>
-                <input type="text" name="passport" value={newEmployee.passport} onChange={handleChange} />
+                <InputMask mask="#### ######" replacement='#' type="text" name="passport" value={newEmployee.passport} onChange={handleChange} placeholder="0000 000000"/>
 
                 <p>Контактная информация</p>
-                <input type="text" name="contactInfo" value={newEmployee.contactInfo} onChange={handleChange} />
+                <InputMask mask="+7-###-###-##-##" replacement='#' type="text" name="contactInfo" value={newEmployee.contactInfo} onChange={handleChange} placeholder="+7-XXX-XXX-XX-XX"/>
 
                 <p>Адрес</p>
-                <input type="text" name="address" value={newEmployee.address} onChange={handleChange} />
+                <input type="text" name="address" value={newEmployee.address} onChange={handleChange} placeholder="Введите адрес проживания"/>
 
                 <p>Отдел</p>
-                <input type="text" name="department" value={newEmployee.department} onChange={handleChange} />
+                <input type="text" name="department" value={newEmployee.department} onChange={handleChange} placeholder="Введите отдел"/>
 
                 <p>Должность</p>
-                <input type="text" name="position" value={newEmployee.position} onChange={handleChange} />
+                <input type="text" name="position" value={newEmployee.position} onChange={handleChange} placeholder="Введите должность"/>
 
                 <p>Зарплата</p>
-                <input type="text" name="salary" value={newEmployee.salary} onChange={handleChange} />
+                <input type="text" name="salary" value={newEmployee.salary} onChange={handleChange} placeholder="Введите зарплату (например, 50 000)"/>
 
                 <p>Дата приема на работу</p>
-                <input type="text" name="hireDate" value={newEmployee.hireDate} onChange={handleChange} />
+                <InputMask mask="##/##/####" replacement='#' type="text" name="hireDate" value={newEmployee.hireDate} onChange={handleChange} placeholder="dd/MM/yyyy"/>
 
                 <div className={styles.buttons}>
                     <button onClick={handleCreate}>Создать</button>

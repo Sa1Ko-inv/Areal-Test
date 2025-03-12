@@ -83,7 +83,7 @@ const Employees = () => {
             );
             setEmployees((prev) =>
                 prev.map((emp) =>
-                    emp.id === employee.id ? { ...emp, status: "уволен"} : emp
+                    emp.id === employee.id ? {...emp, status: "уволен"} : emp
                 )
             );
         } catch (error) {
@@ -96,27 +96,59 @@ const Employees = () => {
     })
 
     return (
-        <div>
-            <h1 className={style.title}>Все сотрудники</h1>
 
-            {/* Фильтр */}
-            <EmployeesFilter
-                sortedEmployees={sortedEmployees}
-                sortEmployees={sortEmployees}
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-            />
+        <main className={style.employeesContainer}>
 
-            {/* Кнопка добавления сотрудника */}
-            <button onClick={() => setIsCreateModalOpen(true)}>
-                Добавить пользователя
-            </button>
+            <header>
+                <h1 className={style.title}>Все сотрудники</h1>
+            </header>
 
-            {/* Список сотрудников */}
-            {filteredEmployees.map((employee) => (
-                <EmployeesItem key={employee.id} employee={employee} onEditClick={handleEditClick} onDismissClick={dismissEmployee}/>
-            ))}
+            <section className={style.controlPanel}>
+                {/* Фильтр */}
+                <EmployeesFilter
+                    sortedEmployees={sortedEmployees}
+                    sortEmployees={sortEmployees}
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                />
 
+                {/* Кнопка добавления сотрудника */}
+                <button className={style.addButton} onClick={() => setIsCreateModalOpen(true)}>
+                    Добавить пользователя
+                </button>
+
+            </section>
+
+            <section className={style.employeesListSection}>
+                {/* Заголовки столбцов */}
+                <header className={style.columnHeaders}>
+                    <div className={style.idColumn}>ID</div>
+                    <div className={style.nameColumn}>ФИО</div>
+                    <div className={style.statusColumn}>Статус</div>
+                    <div className={style.infoColumns}>
+                        <div className={style.column}>Дата Рождения</div>
+                        <div className={style.column}>Паспортные данные</div>
+                        <div className={style.column}>Контактная информация</div>
+                        <div className={style.column}>Адрес проживания</div>
+                        <div className={style.column}>Отдел</div>
+                        <div className={style.column}>Должность</div>
+                        <div className={style.column}>Зарплата</div>
+                        <div className={style.column}>Дата принятия на работу</div>
+                    </div>
+                    <div className={style.actionsColumn}>Действия</div>
+                </header>
+
+                {/* Список сотрудников */}
+                <ul className={style.employeesList}>
+                    {filteredEmployees.map((employee) => (
+                        <li key={employee.id}>
+                            <EmployeesItem employee={employee} onEditClick={handleEditClick}
+                                           onDismissClick={dismissEmployee}/>
+                        </li>
+                    ))}
+                </ul>
+
+            </section>
             {/* Модальные окна */}
             {isCreateModalOpen && (
                 <CreateEmployeeModal onClose={() => setIsCreateModalOpen(false)} create={createEmployees}/>
@@ -127,7 +159,8 @@ const Employees = () => {
                                    onSave={handleSave}/>
             )}
 
-        </div>
+        </main>
+
     );
 };
 

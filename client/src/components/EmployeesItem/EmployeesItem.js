@@ -1,65 +1,48 @@
+"use client"
 import * as styles from "./employeesItem.module.scss"
+import {observer} from "mobx-react-lite";
+import userStore from "../../store/userStore";
 
-const EmployeesItem = ({ employee, onEditClick, onDismissClick}) => {
+const EmployeesItem = observer(({employee, onEditClick, onDismissClick}) => {
     const statusClassName = employee.status.toLowerCase() === "уволен" ? styles.statusDismissed : styles.statusActive
+    console.log("status", userStore.user.status )
+
     return (
-        <div key={employee.id} className={styles.employee}>
-            <div className={styles.header}>
-                <h3 className={styles.name}>
-                    {employee.id}. {employee.fullName}
-                </h3>
+        <article className={styles.employee}>
+            <div className={styles.idCell}>{employee.id}</div>
+            <div className={styles.nameCell}>{employee.fullName}</div>
+            <div className={styles.statusCell}>
                 <span className={`${styles.status} ${statusClassName}`}>{employee.status}</span>
             </div>
             <div className={styles.infoContainer}>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Дата Рождения</div>
-                    <div className={styles.value}>{employee.birthDate}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Паспортные данные</div>
-                    <div className={styles.value}>{employee.passport}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Контактная информация</div>
-                    <div className={styles.value}>{employee.contactInfo}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Адрес проживания</div>
-                    <div className={styles.value}>{employee.address}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Отдел</div>
-                    <div className={styles.value}>{employee.department}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Должность</div>
-                    <div className={styles.value}>{employee.position}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Зарплата</div>
-                    <div className={styles.value}>{employee.salary}</div>
-                </div>
-                <div className={styles.detailItem}>
-                    <div className={styles.label}>Дата принятия на работу</div>
-                    <div className={styles.value}>{employee.hireDate}</div>
-                </div>
+                <div className={styles.infoCell}>{employee.birthDate}</div>
+                <div className={styles.infoCell}>{employee.passport}</div>
+                <div className={styles.infoCell}>{employee.contactInfo}</div>
+                <div className={styles.infoCell}>{employee.address}</div>
+                <div className={styles.infoCell}>{employee.department}</div>
+                <div className={styles.infoCell}>{employee.position}</div>
+                <div className={styles.infoCell}>{employee.salary}</div>
+                <div className={styles.infoCell}>{employee.hireDate}</div>
             </div>
-            <div className={styles.buttons}>
+            <div className={styles.actionsCell}>
                 <button
                     className={styles.editButton}
                     onClick={() => onEditClick(employee)}
+                    // disabled={userStore.isFired}
                 >
-                    Редактировать</button>
+                    Редактировать
+                </button>
                 <button
                     className={styles.dismissButton}
                     onClick={() => onDismissClick(employee)}
-                    disabled={employee.status.toLowerCase() === "Уволен"}
+                    disabled={employee.status.toLowerCase() === "уволен"}
                 >
-                    Уволить</button>
+                    Уволить
+                </button>
             </div>
-        </div>
+        </article>
     )
-}
+});
 
 export default EmployeesItem
 

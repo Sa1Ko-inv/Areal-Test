@@ -16,7 +16,7 @@ function buildPlagins({mode, paths, analyzer, platform}) {
         new HtmlWebpackPlugin({
             template: paths.html,
             inject: 'body',
-            favicon: path.resolve(paths.public, 'QR-icons.png')
+            favicon: path.resolve(paths.public, 'Employees.png')
         }),
 
         new Dotenv({
@@ -27,8 +27,6 @@ function buildPlagins({mode, paths, analyzer, platform}) {
         new DefinePlugin({
             __PLATFORM__: JSON.stringify(platform),
             __ENV__: JSON.stringify(mode),
-            // 'process.env': JSON.stringify(process.env),
-            // 'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL)
         }),
     ]
 
@@ -41,11 +39,6 @@ function buildPlagins({mode, paths, analyzer, platform}) {
         plugins.push(new MiniCssExtractPlugin({
             filename: 'css/[name].[contenthash:8].css',
             chunkFilename: 'css/[name].[contenthash:8].css',
-        }))
-        plugins.push(new CopyPlugin({
-            patterns: [
-                {from: path.resolve(paths.public, 'locales'), to: path.resolve(paths.output, 'locales'),},
-            ],
         }))
     }
 
