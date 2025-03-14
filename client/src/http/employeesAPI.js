@@ -6,17 +6,6 @@ export const fetchEmployees = async () => {
     return data;
 }
 
-// export const updateEmployees = async (id, fullName, birthDate, passport, contactInfo, address, department, position, salary, hireDate) => {
-//     const {data} = await $host.put(`api/employees/edit/${id}`, {fullName, birthDate, passport, contactInfo, address, department, position, salary, hireDate},
-//         {
-//         // Передаем закодированный статус пользователя через headers
-//         headers: {
-//             'user-status': encodeURIComponent(userStore.user.status)
-//         }
-//     });
-//     return data;
-// };
-
 export const updateEmployees = async (id, fullName,
                                       birthDate, passport,
                                       contactInfo, address,

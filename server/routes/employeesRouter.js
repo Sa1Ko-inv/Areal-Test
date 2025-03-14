@@ -7,6 +7,5 @@ router.get('/all', userController.getAllUsers) // Получение всех п
 router.put('/edit/:id', userController.updateUser) // Редактирование пользователя по ID
 router.put('/dismiss/:id', userController.dissmisUser) // Увольнение пользователя по ID
 
-router.post('/clear', userController.clearUsers) // Очистка таблицы пользователей и сброс автоинкремента
 
 module.exports = router
