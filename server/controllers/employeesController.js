@@ -68,7 +68,7 @@ class EmployeesController {
 
             // Проверка, не уволен ли пользователь
             if (userToUpdate.status === 'Уволен') {
-                return next(ApiError.forbidden('Редактирование информации уволенного сотрудника запрещено'));
+                return next(ApiError.forbidden('Редактирование информации уволенного сотрудника запрещена'));
             }
 
             await userToUpdate.update({
