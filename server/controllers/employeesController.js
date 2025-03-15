@@ -1,6 +1,5 @@
 const ApiError = require("../error/ApiError");
 const {User} = require("../models/models");
-const bcrypt = require('bcrypt')
 
 class EmployeesController {
     //Создание нового пользователя

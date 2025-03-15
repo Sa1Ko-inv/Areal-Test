@@ -1,4 +1,4 @@
-// src/components/employees/employees.js
+
 import React, { useState } from 'react';
 import EmployeesItem from "./EmployeesItem/EmployeesItem";
 import * as style from "./employees.module.scss"
