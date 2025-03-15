@@ -26,7 +26,7 @@ const EmployeesItem = observer(({employee, onEditClick, onDismissClick}) => {
                 <button
                     className={styles.editButton}
                     onClick={() => onEditClick(employee)}
-                    disabled={employee.status.toLowerCase() === "уволен"}
+                    // disabled={employee.status.toLowerCase() === "уволен"}
                 >
                     Редактировать
                 </button>

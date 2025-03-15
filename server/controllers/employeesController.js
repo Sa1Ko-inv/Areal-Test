@@ -48,14 +48,6 @@ class EmployeesController {
     async updateUser(req, res, next) {
         try {
             const {id} = req.params;
-            // Получаем и декодируем статус из userStore через headers
-            const userStatus = decodeURIComponent(req.headers['user-status']);
-
-            // Проверяем статус пользователя, который пытается редактировать
-            if (userStatus === 'Уволен') {
-                return next(ApiError.forbidden('Уволенным сотрудникам запрещено редактировать информацию'));
-            }
-
             const {
                 fullName,
                 birthDate,
@@ -72,6 +64,11 @@ class EmployeesController {
 
             if (!userToUpdate) {
                 return next(ApiError.badRequest('Пользователь не найден'));
+            }
+
+            // Проверка, не уволен ли пользователь
+            if (userToUpdate.status === 'Уволен') {
+                return next(ApiError.forbidden('Редактирование информации уволенного сотрудника запрещено'));
             }
 
             await userToUpdate.update({
